@@ -3,9 +3,9 @@
 
 using namespace std;
 
-float* readFile(char*, int);
+void readFile(char*, int, float*);
 int getN(char*);
-int* bruteForce(int, int, float*);
+void bruteForce(int, int, float*);
 
 int main(int argc, char* argv[]) {
 
@@ -13,20 +13,35 @@ int main(int argc, char* argv[]) {
   int k;
   float* sequence;
 
+  // Check to see if the appropriate number of arguments were passed.
   if(argc != 4) {
-    cout << "ERROR: Please execute this function using the form:\nprogram1 <inputfilename> <k> <-b|-d>\n";
+    cout << "\033[31mERROR:\033[0m Please execute this function using the form:\nprogram1 <inputfilename> <k> <-b|-d>\n";
     return 1;
   }
 
+  // Check to see if the file exists and if so return the number of elements.
   n = getN(argv[1]);
-  sequence = readFile(argv[1], n);
+  if(n == -1) {
+    cout << "\033[31mERROR:\033[0m The file \033[33m" << argv[1] << "\033[0m not found." << endl;
+    return 1;
+  }
+
+  // Read the file into an array.
+  sequence = new float[n];
+  readFile(argv[1], n, sequence);
+
+  // Parse the subsequence length.
   k = atoi(argv[2]);
 
+  // Print initial output.
   cout << argv[1] << endl;
   cout << "n = " << n << ", k = " << k << endl;
 
+  // Finally perform the appropriate algorithm.
   if(argv[3][1] == 'b' || argv[3][1] == 'B') {
     bruteForce(n, k, sequence);
+  } else if(argv[3][1] == 'd' || argv[3][1] == 'd') {
+
   }
 
 
@@ -34,7 +49,7 @@ int main(int argc, char* argv[]) {
   return 0;
 }
 
-int* bruteForce(int n, int k, float* sequence) {
+void bruteForce(int n, int k, float* sequence) {
 
   int bigL = 0;
   int bigR = k;
@@ -44,12 +59,11 @@ int* bruteForce(int n, int k, float* sequence) {
     float avg = 0;
     for(int j = i; j < i + k; j++) {
       avg += sequence[j];
-      cout << sequence[j] << endl;
     }
     avg = avg/k;
-    if(avg > bigAvg) {
-      bigL = i+1;
-      bigR = i+k;
+    if(avg >= bigAvg) {
+      bigL = i;
+      bigR = i+k-1;
       bigAvg = avg;
     }
   }
@@ -63,24 +77,24 @@ int getN(char* fname) {
   int n = -1;
   ifstream in;
   in.open(fname);
-  float temp;
-  while(!in.eof()) {
-      n++;
-      in >> temp;
+  if(in) {
+    float temp;
+    while(!in.eof()) {
+        n++;
+        in >> temp;
+    }
   }
   in.close();
   return n;
 
 }
 
-float* readFile(char* fname, int n) {
+void readFile(char* fname, int n, float* sequence) {
 
   ifstream in;
   in.open(fname);
-  float* sequence = new float[n];
-
+  for(int i = 0; i < n; i++) {
+    in >> sequence[i];
+  }
   in.close();
-
-  return sequence;
-
 }
