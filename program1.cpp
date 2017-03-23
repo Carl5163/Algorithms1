@@ -52,10 +52,10 @@ int main(int argc, char* argv[]) {
 void bruteForce(int n, int k, float* sequence) {
 
   int bigL = 0;
-  int bigR = k;
+  int bigR = k-1;
   float bigAvg = 0;
 
-  for(int i = 0; i < n - k; i++) {
+  for(int i = 0; i < n - k + 1; i++) {
     float avg = 0;
     for(int j = i; j < i + k; j++) {
       avg += sequence[j];
