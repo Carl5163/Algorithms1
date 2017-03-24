@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
   // Finally perform the appropriate algorithm.
   if(argv[3][1] == 'b' || argv[3][1] == 'B') {
     bruteForce(n, k, sequence);
-  } else if(argv[3][1] == 'd' || argv[3][1] == 'd') {
+  } else if(argv[3][1] == 'd' || argv[3][1] == 'D') {
 
   }
 
