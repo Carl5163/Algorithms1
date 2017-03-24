@@ -39,7 +39,7 @@ int main(int argc, char* argv[]) {
 
   // Finally perform the appropriate algorithm.
 
-  float* ret = new float[3];
+  float* ret;
   if(argv[3][1] == 'b' || argv[3][1] == 'B') {
     ret = bruteForce(n, k, sequence);
   } else if(argv[3][1] == 'd' || argv[3][1] == 'D') {
@@ -93,7 +93,7 @@ float* bruteForce(int n, int k, float* sequence) {
     }
   }
 
-  float* ret = new float[3];
+  float ret[3];
   ret[0] = bigAvg;
   ret[1] = bigL;
   ret[2] = bigR;
