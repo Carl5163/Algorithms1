@@ -3,9 +3,10 @@
 
 using namespace std;
 
-void readFile(char*, int, float*);
-int getN(char*);
-void bruteForce(int, int, float*);
+int readFile(char*, float*);
+float* bruteForce(int, int, float*);
+float sum(int, int, float*);
+float* divAndConquer(int, int, int, float*);
 
 int main(int argc, char* argv[]) {
 
@@ -19,16 +20,14 @@ int main(int argc, char* argv[]) {
     return 1;
   }
 
-  // Check to see if the file exists and if so return the number of elements.
-  n = getN(argv[1]);
+
+  // Read the file into an array.
+  sequence = new float[n];
+  n = readFile(argv[1], sequence);
   if(n == -1) {
     cout << "\033[31mERROR:\033[0m The file \033[33m" << argv[1] << "\033[0m not found." << endl;
     return 1;
   }
-
-  // Read the file into an array.
-  sequence = new float[n];
-  readFile(argv[1], n, sequence);
 
   // Parse the subsequence length.
   k = atoi(argv[2]);
@@ -37,19 +36,45 @@ int main(int argc, char* argv[]) {
   cout << argv[1] << endl;
   cout << "n = " << n << ", k = " << k << endl;
 
-  // Finally perform the appropriate algorithm.
-  if(argv[3][1] == 'b' || argv[3][1] == 'B') {
-    bruteForce(n, k, sequence);
-  } else if(argv[3][1] == 'd' || argv[3][1] == 'D') {
 
+  // Finally perform the appropriate algorithm.
+
+  float* ret = new float[3];
+  if(argv[3][1] == 'b' || argv[3][1] == 'B') {
+    ret = bruteForce(n, k, sequence);
+  } else if(argv[3][1] == 'd' || argv[3][1] == 'D') {
+    //ret = divAndConquer(0, n, k, sequence);
   }
 
+
+
+  cout << "Big average: " << ret[0] << " at [" << ret[1] << "~" << ret[2] << "]\n";
 
 
   return 0;
 }
 
-void bruteForce(int n, int k, float* sequence) {
+float* divAndConquer(int l, int r, int k, float* sequence) {
+  if(r-l == k-1) {
+    //return sum(l, r, sequence);
+  }
+  if(r-l < k-1) {
+    //return 0;
+  }
+//  float* left =
+
+
+}
+
+float sum(int l, int r, float* sequence) {
+  float sum = 0;
+  for(int i = l; i < r; i++) {
+    sum += sequence[i];
+  }
+  return sum;
+}
+
+float* bruteForce(int n, int k, float* sequence) {
 
   int bigL = 0;
   int bigR = k-1;
@@ -68,33 +93,25 @@ void bruteForce(int n, int k, float* sequence) {
     }
   }
 
-  cout << "Big average: " << bigAvg << " at [" << bigL << "~" << bigR << "]\n";
+  float* ret = new float[3];
+  ret[0] = bigAvg;
+  ret[1] = bigL;
+  ret[2] = bigR;
+  return ret;
 
 }
 
-int getN(char* fname) {
+int readFile(char* fname, float* sequence) {
 
   int n = -1;
-  ifstream in;
-  in.open(fname);
-  if(in) {
-    float temp;
-    while(!in.eof()) {
-        n++;
-        in >> temp;
+    ifstream in;
+    in.open(fname);
+    if(in) {
+      in >> n;
+      for(int i = 0; i < n; i++) {
+        in >> sequence[i];
+      }
     }
-  }
   in.close();
   return n;
-
-}
-
-void readFile(char* fname, int n, float* sequence) {
-
-  ifstream in;
-  in.open(fname);
-  for(int i = 0; i < n; i++) {
-    in >> sequence[i];
-  }
-  in.close();
 }
