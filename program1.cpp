@@ -91,24 +91,24 @@ int divAndConquer(int l, int r, int k, int n, float* sequence) {
   int rightI = divAndConquer(l+(r-l)/2+1, r, k, n, sequence);
   int centerI = bruteForceCenter(l+(r-l)/2-(k-2), l+(r-l)/2+(k-1), k, n, sequence);
 
-
   // This last part just picks the index that gives the larges sequence and returns it.
   int ret = leftI;
 
   if(average(ret, ret+k, k, sequence) < average(rightI, rightI+k, k, sequence)) {
+    //cout << "Changing ret from " << ret << " to " << rightI << endl;
     ret = rightI;
   }
   if(average(ret, ret+k, k, sequence) < average(centerI, centerI+k, k, sequence)) {
+    //cout << "Changing ret from " << ret << " to " << centerI << endl;
     ret = centerI;
   }
-
   return ret;
 
 }
 
 float average(int l, int r, int k, float* sequence) {
 
-  if(l == -1) {
+  if(l < 0 || r < 0) {
     return 0;
   }
   float sum = 0;
