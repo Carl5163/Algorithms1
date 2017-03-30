@@ -10,6 +10,8 @@ int bruteForceCenter(int l, int r, int k, int n, float* sequence);
 float average(int, int, int, float*);
 int divAndConquer(int, int, int, int n, float*);
 
+static int numCalls = 0;
+
 int main(int argc, char* argv[]) {
 
 
@@ -39,7 +41,7 @@ int main(int argc, char* argv[]) {
 
   // Print initial output.
   cout << argv[1] << endl;
-  cout << "n = " << n << ", k = " << k << endl;
+  cout << "n = \033[32m" << n << "\033[0m, k = \033[32m" << k << "\033[0m\n";
 
 
   // Finally perform the appropriate algorithm.
@@ -49,10 +51,10 @@ int main(int argc, char* argv[]) {
   mtime = ((seconds) * 1000 + useconds/1000.0) + 0.5;
   if(argv[3][1] == 'b' || argv[3][1] == 'B') {
     ret = bruteForce(n, k, sequence);
-    cout << "Brute Force\n";
+    cout << "Algorithm used: \033[33mBrute Force\033[0m\n";
   } else if(argv[3][1] == 'd' || argv[3][1] == 'D') {
     ret = divAndConquer(0, n, k, n, sequence);
-    cout << "Divide and Conquer\n";
+    cout << "Algorithm used: \033[33mDivide and Conquer\033[0m\n";
   }
 
   gettimeofday(&end, NULL);
@@ -62,8 +64,11 @@ int main(int argc, char* argv[]) {
 
   mtime = ((seconds) * 1000 + useconds/1000.0) + 0.5;
 
-  cout << "Largest average: " << average(ret, ret+k, k, sequence) << " at [" << ret << "~" << ret+k-1 << "]\n";
+  cout << "Largest average: \033[32m" << average(ret, ret+k, k, sequence) << "\033[0m at [\033[32m" << ret << "\033[0m~\033[32m" << ret+k-1 << "\033[0m]\n";
   cout << "Algorithm took \033[32m~" << mtime << "ms\033[0m.\n";
+  if(argv[3][1] == 'd' || argv[3][1] == 'D') {
+    cout << "divAndConquer() was called \033[32m" << numCalls << " \033[0mtimes.\n";
+  }
 
 
   return 0;
@@ -77,6 +82,9 @@ int divAndConquer(int l, int r, int k, int n, float* sequence) {
   // Base cases. There are a different number of base cases depending on k.
   // If the subarray length is equal to k, just average the whole array and return.
   // If the subarray length is less than k, return 0 because there is no sequence worth averaging.
+
+  numCalls++;
+
   if(r-l == k-1) {
     return l;
   }
