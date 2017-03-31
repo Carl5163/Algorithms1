@@ -40,7 +40,7 @@ int main(int argc, char* argv[]) {
   k = atoi(argv[2]);
 
   // Print initial output.
-  cout << argv[1] << endl;
+  cout << "Input File: \033[32m" << argv[1] << "\033[0m\n";
   cout << "n = \033[32m" << n << "\033[0m, k = \033[32m" << k << "\033[0m\n";
 
 
@@ -136,8 +136,7 @@ int bruteForceCenter(int l, int r, int k, int n, float* sequence) {
   float bigAvg = 0;
 
   for(int i = l; i < r - k + 1; i++) {
-    float avg = 0;
-    avg = average(i, i+k, k, sequence);
+    float avg = average(i, i+k, k, sequence);
     if(avg >= bigAvg) {
       bigL = i;
       bigR = i+k-1;
@@ -157,8 +156,7 @@ int bruteForce(int n, int k, float* sequence) {
   float bigAvg = 0;
 
   for(int i = 0; i < n - k + 1; i++) {
-    float avg = 0;
-    avg = average(i, i+k, k, sequence);
+    float avg = average(i, i+k, k, sequence);
     if(avg >= bigAvg) {
       bigL = i;
       bigR = i+k-1;
